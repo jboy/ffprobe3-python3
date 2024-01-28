@@ -1270,6 +1270,7 @@ class FFvideoStream(FFstream):
     :ivar num_frames: (``int`` or ``None``) number of frames
     :ivar bit_rate_bps: (``int`` or ``None``) video bit-rate in bits-per-second
     :ivar bit_rate_kbps: (``float`` or ``None``) video bit-rate in kilobits-per-second
+    :ivar side_data_list: (``list`` or ``None``) video stream side-data
 
     **Note:** An instance of this class `FFvideoStream` may **only** be
     constructed for `parsed_json` with ``(codec_type == "video")``.
@@ -1294,6 +1295,7 @@ class FFvideoStream(FFstream):
             self.bit_rate_kbps = float(self.bit_rate_bps) / 1000.0
         except (TypeError, ValueError):
             self.bit_rate_kbps = None
+        self.side_data_list =   self.get('side_data_list')
 
     def __str__(self):
         """Return a string containing a human-readable summary of the object."""
@@ -1458,6 +1460,13 @@ class FFvideoStream(FFstream):
     def get_frame_shape(self, default=None):
         """Return frame (width, height) as a pair ``(int, int)``; else `default`.
 
+        Note that this shape is (width, height), like a human would report it;
+        rather than (height, width), like in a Numpy array shape.
+
+        If there's video "side data" that includes a rotation that's a
+        multiple of 90 or 270 degrees, swap the (width, height) values
+        to rotate the frame shape (orientation) accordingly.
+
         If `default` is not supplied, it defaults to ``None``, so this method
         will never raise a `KeyError`.
 
@@ -1472,9 +1481,44 @@ class FFvideoStream(FFstream):
                 than a single ``None`` value, for 2-tuple deconstruction).
         """
         try:
-            return (int(self.width), int(self.height))
+            height = int(self.height)
+            width = int(self.width)
+            if self.get_frame_rotation(default=0) % 360 in (90, 270):
+                # Rotate the frame shape (orientation).
+                return (height, width)
+            else:
+                return (width, height)
         except Exception:
             return default
+
+    def get_frame_rotation(self, default=None):
+        """Return frame rotation from ``side_data`` as ``int``; else `default`.
+
+        If `default` is not supplied, it defaults to ``None``, so this method
+        will never raise an exception.
+        """
+        try:
+            rotations = [d["rotation"] for d in self.side_data_list]
+            return rotations[0]
+        except Exception as e:
+            return default
+
+    def get_side_data(self, internal=False):
+        """Return a list of video stream side-data.
+
+        This method always returns a `list`, even if no `"side_data_list"`
+        was found in the parsed JSON output (meaning that data attribute
+        `self.side_data_list` has the value `None`).
+        """
+        if internal:
+            # Return a reference to the internal list `self.side_data_list`.
+            if self.side_data_list is None:
+                # Modify internal `self.side_data_list` to be a list.
+                self.side_data_list = []
+            return self.side_data_list
+        else:
+            # Always return a new list, whether a copy or a new empty list.
+            return (self.side_data_list[:] if self.side_data_list is not None else [])
 
 
 _KNOWN_FFSTREAM_SUBCLASSES = dict(
