@@ -23,6 +23,7 @@ Noteworthy improvements in this fork include:
 - Fixed a few Python3 compatibility bugs in the pre-fork code.
 - Re-wrote the `ffprobe` call to request & parse the `json` print-format.
 - Handle "Chapter" in ffprobe output.  ("Stream" was already handled.)
+- Handle video stream `rotation` in video stream "side data".
 - Support/allow remote media streams (as `ffprobe` program already does).
 - Local-file-exists checks are optional (use `verify_local_mediafile=False`).
 - More classes, with more attributes & methods for commonly-accessed metadata.
