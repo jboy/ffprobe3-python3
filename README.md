@@ -204,12 +204,10 @@ on the `ffprobe-python` repo.
   ([issue 4](https://github.com/gbstack/ffprobe-python/issues/4)):
   Handle non-HTTP remote streams (which are already supported by
   the command-line `ffprobe` program) instead of raising an error.
-- **bug fix** (I assume, but I have no "problem" media file for testing)
+- **bug fix**
   ([issue 14](https://github.com/gbstack/ffprobe-python/issues/14),
   [issue 19](https://github.com/gbstack/ffprobe-python/issues/19)):
-  Handle "Side data" and multi-line fields in media files (which I *assume*
-  will be handled correctly by the `json` print-format, if the command-line
-  `ffprobe` program already prints the `SIDE_DATA` tags) instead of crashing.
+  Handle "Side data" and multi-line fields in media files instead of crashing.
 - **feature request**
   ([issue 4](https://github.com/gbstack/ffprobe-python/issues/4),
   [issue 16](https://github.com/gbstack/ffprobe-python/issues/16)):
