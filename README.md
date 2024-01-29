@@ -282,7 +282,7 @@ License
 
 (The MIT License)
 
-Copyright © 2022--2024 James Boyden <jboy@jboy.me>
+Copyright © 2022--2024 James Boyden <pypi@jboy.me>
 
 Maintained 2019--2021 by Mark Ma <519329064@qq.com>
 
