@@ -4,6 +4,7 @@ Based on:
  https://github.com/pypa/sampleproject/blob/db5806e0a3204034c51b1c00dde7d5eb3fa2532e/setup.py
 
 See:
+ https://python-packaging.readthedocs.io/en/latest/minimal.html
  https://packaging.python.org/guides/distributing-packages-using-setuptools/
  https://github.com/pypa/sampleproject
 """
@@ -17,7 +18,7 @@ with open('README.md', 'r') as fh:
 
 setup(
     name='ffprobe3-python3',
-    version='2.0.0',
+    version='2.0.0-beta',
     description="""A Python3 wrapper-library around the 'ffprobe' command-line program to extract metadata from media files or streams.""",
     long_description=long_description,
     long_description_content_type="text/markdown",
