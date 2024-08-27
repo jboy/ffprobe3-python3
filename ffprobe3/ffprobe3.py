@@ -342,7 +342,8 @@ def probe(media_filename, *,
         proc = subprocess.Popen(split_cmdline,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
-                universal_newlines=True)
+                universal_newlines=True,
+                encoding="cp437")
     # We catch the following plausible exceptions specifically,
     # in case we decide that we want to process any of them specially.
     except FileNotFoundError as e:
